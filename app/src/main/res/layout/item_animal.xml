@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="animalListItem"
+            type="com.mukesh.assignment_android.data.model.Animal" />
+        <variable
+            name="listener"
+            type="android.view.View.OnClickListener" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:onClick="@{listener}"
+        android:tag="@{animalListItem.name}"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/iv_animal_image"
+            android:layout_width="0dp"
+            android:layout_height="200dp"
+            android:scaleType="center"
+            android:imageUrl="@{animalListItem.imageUrl}"
+            android:src="@mipmap/ic_launcher_round"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_animal_name"
+            style="@style/Title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:background="#AFFF"
+            android:gravity="center"
+            android:padding="4dp"
+            android:text="@{animalListItem.name}"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_animal_image"
+            app:layout_constraintEnd_toEndOf="@id/iv_animal_image"
+            app:layout_constraintStart_toStartOf="@id/iv_animal_image" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
