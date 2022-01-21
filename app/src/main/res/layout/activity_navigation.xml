@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.mukesh.assignment_android.ui.main.view.NavigationActivity">
+    tools:context=".mvvm.view.NavigationActivity">
 
     <fragment
         android:id="@+id/fragment"

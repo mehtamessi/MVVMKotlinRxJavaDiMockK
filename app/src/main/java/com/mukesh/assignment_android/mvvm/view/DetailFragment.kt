@@ -1,4 +1,4 @@
-package com.mukesh.assignment_android.ui.main.view
+package com.mukesh.assignment_android.mvvm.view
 
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
@@ -13,7 +13,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.mukesh.assignment_android.R
-import com.mukesh.assignment_android.data.model.Animal
+import com.mukesh.assignment_android.mvvm.model.model_parse_data.Animal
 import com.mukesh.assignment_android.databinding.FragmentDetailBinding
 
 /**

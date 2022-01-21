@@ -4,7 +4,7 @@
     <data>
         <variable
             name="animalListItem"
-            type="com.mukesh.assignment_android.data.model.Animal" />
+            type="com.mukesh.assignment_android.mvvm.model.model_parse_data.Animal" />
         <variable
             name="listener"
             type="android.view.View.OnClickListener" />

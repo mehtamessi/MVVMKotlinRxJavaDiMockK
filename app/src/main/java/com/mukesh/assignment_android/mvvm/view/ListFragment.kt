@@ -1,4 +1,4 @@
-package com.mukesh.assignment_android.ui.main.view
+package com.mukesh.assignment_android.mvvm.view
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -10,14 +10,11 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 
 import com.mukesh.assignment_android.R
-import com.mukesh.assignment_android.data.model.Animal
-import com.mukesh.assignment_android.ui.main.adapter.AnimalListAdapter
-import com.mukesh.assignment_android.ui.main.viewmodel.ListViewModel
+import com.mukesh.assignment_android.mvvm.model.model_parse_data.Animal
+import com.mukesh.assignment_android.mvvm.adapter.AnimalListAdapter
+import com.mukesh.assignment_android.mvvm.viewmodel.ListViewModel
 import kotlinx.android.synthetic.main.fragment_list.*
 
-/**
- * A simple [Fragment] subclass.
- */
 class ListFragment : Fragment() {
 
     private lateinit var viewModel: ListViewModel
@@ -42,7 +39,6 @@ class ListFragment : Fragment() {
         } else {
             pb_loading_view.visibility = View.GONE
         }
-
     }
 
     private val loadingErrorObserver = Observer<Boolean> {
@@ -52,7 +48,6 @@ class ListFragment : Fragment() {
             tv_list_error.visibility = View.GONE
         }
     }
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -68,7 +63,7 @@ class ListFragment : Fragment() {
         viewModel.animals.observe(this, animalListDataObserver)
         viewModel.loading.observe(this, loadingDataObserver)
         viewModel.loadError.observe(this, loadingErrorObserver)
-        viewModel.refresh()
+        viewModel.everyTimeReferesh()
 
         rv_animal_list.apply {
             layoutManager = GridLayoutManager(context, 2)
@@ -79,10 +74,8 @@ class ListFragment : Fragment() {
             rv_animal_list.visibility = View.GONE
             tv_list_error.visibility = View.GONE
             pb_loading_view.visibility = View.VISIBLE
-            viewModel.hardRefresh()
+            viewModel.everyTimeReferesh()
             sr_layout_swipe_animal.isRefreshing = false
         }
     }
-
-
 }

@@ -1,7 +1,7 @@
-package com.mukesh.assignment_android.data.api
+package com.mukesh.assignment_android.mvvm.model.api
 
-import com.mukesh.assignment_android.data.model.Animal
-import com.mukesh.assignment_android.data.model.ApiKey
+import com.mukesh.assignment_android.mvvm.model.model_parse_data.Animal
+import com.mukesh.assignment_android.mvvm.model.model_parse_data.ApiKey
 import io.reactivex.Single
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
@@ -16,6 +16,4 @@ interface AnimalApi {
     @FormUrlEncoded
     @POST("getAnimals")
     fun getAnimal(@Field("key")key :String):Single<List<Animal>>
-
-
 }

@@ -1,13 +1,14 @@
-package com.mukesh.assignment_android.data.api
+package com.mukesh.assignment_android.mvvm.model.api
 
-import com.mukesh.assignment_android.data.model.Animal
-import com.mukesh.assignment_android.data.model.ApiKey
+import android.content.Context
+import com.mukesh.assignment_android.mvvm.model.model_parse_data.Animal
+import com.mukesh.assignment_android.mvvm.model.model_parse_data.ApiKey
 import com.mukesh.assignment_android.di.DaggerApiComponent
 import io.reactivex.Single
 import javax.inject.Inject
 
 
-class AnimalApiService {
+class AnimalApiService(context: Context) {
     @Inject
     lateinit var api: AnimalApi
 

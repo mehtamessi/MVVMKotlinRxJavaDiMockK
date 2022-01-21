@@ -1,4 +1,4 @@
-package com.mukesh.assignment_android.data.model
+package com.mukesh.assignment_android.mvvm.model.model_parse_data
 
 import android.os.Parcel
 import android.os.Parcelable

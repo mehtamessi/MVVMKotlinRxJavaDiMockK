@@ -1,4 +1,4 @@
-package com.mukesh.assignment_android.ui.main.view
+package com.mukesh.assignment_android.mvvm.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -16,7 +16,6 @@ class NavigationActivity : AppCompatActivity() {
 
         navController = Navigation.findNavController(this,R.id.fragment)
         NavigationUI.setupActionBarWithNavController(this,navController)
-
     }
 
     override fun onSupportNavigateUp(): Boolean {

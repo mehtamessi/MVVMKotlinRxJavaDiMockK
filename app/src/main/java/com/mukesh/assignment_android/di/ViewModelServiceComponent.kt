@@ -1,11 +1,11 @@
 package com.mukesh.assignment_android.di
 
-import com.mukesh.assignment_android.ui.main.viewmodel.ListViewModel
+import com.mukesh.assignment_android.mvvm.viewmodel.ListViewModel
 import dagger.Component
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = [ApiModule::class,PrefModule::class,ApplicationModule::class])
+@Component(modules = [ApiModule::class,ApplicationModule::class])
 interface ViewModelServiceComponent {
     fun injectInViewModel(serviceForViewModel: ListViewModel)
 }

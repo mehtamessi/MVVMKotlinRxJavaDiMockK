@@ -1,4 +1,4 @@
-package com.mukesh.assignment_android.ui.main.adapter
+package com.mukesh.assignment_android.mvvm.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,10 +6,9 @@ import android.view.ViewGroup
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
-import com.mukesh.assignment_android.data.model.Animal
+import com.mukesh.assignment_android.mvvm.model.model_parse_data.Animal
 import com.mukesh.assignment_android.databinding.ItemAnimalBinding
-import com.mukesh.assignment_android.ui.main.view.ListFragmentDirections
-
+import com.mukesh.assignment_android.mvvm.view.ListFragmentDirections
 
 class AnimalListAdapter(private val animalList: ArrayList<Animal>) :
     RecyclerView.Adapter<AnimalListAdapter.AnimalViewHolder>() ,View.OnClickListener{
@@ -25,7 +24,6 @@ class AnimalListAdapter(private val animalList: ArrayList<Animal>) :
         fun bind(animal: Animal?) {
             binding.animalListItem = animal
         }
-
     }
 
     fun updateAnimalList(newAnimalList: List<Animal>) {

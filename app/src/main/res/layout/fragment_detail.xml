@@ -6,7 +6,7 @@
     <data>
         <variable
             name="animal_data"
-            type="com.mukesh.assignment_android.data.model.Animal" />
+            type="com.mukesh.assignment_android.mvvm.model.model_parse_data.Animal" />
         <variable
             name="background_color"
             type="Integer" />

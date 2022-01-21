@@ -8,7 +8,7 @@
 
     <fragment
         android:id="@+id/listFragment"
-        android:name="com.mukesh.assignment_android.ui.main.view.ListFragment"
+        android:name="com.mukesh.assignment_android.mvvm.view.ListFragment"
         android:label="Animal List"
         tools:layout="@layout/fragment_list">
         <action
@@ -17,7 +17,7 @@
     </fragment>
     <fragment
         android:id="@+id/detailFragment"
-        android:name="com.mukesh.assignment_android.ui.main.view.DetailFragment"
+        android:name="com.mukesh.assignment_android.mvvm.view.DetailFragment"
         android:label="Animal Detail"
         tools:layout="@layout/fragment_detail" >
         <action
@@ -25,6 +25,6 @@
             app:destination="@id/listFragment" />
         <argument
             android:name="specific_animal_data"
-            app:argType="com.mukesh.assignment_android.data.model.Animal" />
+            app:argType="com.mukesh.assignment_android.mvvm.model.model_parse_data.Animal" />
     </fragment>
 </navigation>
