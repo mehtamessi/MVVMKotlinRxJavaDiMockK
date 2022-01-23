@@ -8,7 +8,7 @@ import io.reactivex.Single
 import javax.inject.Inject
 
 
-class AnimalApiService(context: Context) {
+class AnimalApiService() {
     @Inject
     lateinit var api: AnimalApi
 

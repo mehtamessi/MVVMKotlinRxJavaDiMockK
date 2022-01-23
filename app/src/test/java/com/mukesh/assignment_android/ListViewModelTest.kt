@@ -2,12 +2,14 @@ package com.mukesh.assignment_android
 
 import android.app.Application
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.mukesh.assignment_android.mvvm.model.model_parse_data.Animal
-import com.mukesh.assignment_android.mvvm.model.api.AnimalApiService
-import com.mukesh.assignment_android.mvvm.model.model_parse_data.ApiKey
 import com.mukesh.assignment_android.di.ApplicationModule
 import com.mukesh.assignment_android.di.DaggerViewModelServiceComponent
+import com.mukesh.assignment_android.mvvm.model.api.AnimalApiService
+import com.mukesh.assignment_android.mvvm.model.model_parse_data.Animal
+import com.mukesh.assignment_android.mvvm.model.model_parse_data.ApiKey
 import com.mukesh.assignment_android.mvvm.viewmodel.ListViewModel
+import com.mukesh.assignment_android.utils.SharedPreferenceHelper
+import com.rajesh.stateofartandroid.PrefModuleTest
 import io.reactivex.Scheduler
 import io.reactivex.Single
 import io.reactivex.android.plugins.RxAndroidPlugins
@@ -31,6 +33,9 @@ class ListViewModelTest {
     @Mock
     lateinit var animalApiService: AnimalApiService
 
+    @Mock
+    lateinit var sPrefs: SharedPreferenceHelper
+
     val application = Mockito.mock(Application::class.java)
 
     var listViewModel = ListViewModel(application,true)
@@ -42,6 +47,7 @@ class ListViewModelTest {
         DaggerViewModelServiceComponent.builder()
             .applicationModule(ApplicationModule(application))
             .apiModule(ApiModuleTest(animalApiService))
+            .prefModule(PrefModuleTest(sPrefs))
             .build()
             .injectInViewModel(listViewModel)
     }
@@ -59,12 +65,13 @@ class ListViewModelTest {
 
     @Test
     fun getAnimalSuccess(){
+        Mockito.`when`(sPrefs.getStoredApiKey()).thenReturn(testKey)
         val  animal = Animal("cow",null,null,null,null,null,null)
         val  mockAnimalList = listOf(animal)
 
         val testSingle = Single.just(mockAnimalList)
         Mockito.`when`(animalApiService.getAnimals(testKey)).thenReturn(testSingle)
-        listViewModel.everyTimeReferesh()
+        listViewModel.refresh()
 
         Assert.assertEquals(1,listViewModel.animals.value?.size)
         Assert.assertEquals(false,listViewModel.loadError.value)
@@ -73,11 +80,13 @@ class ListViewModelTest {
 
     @Test
     fun getAnimalFailure(){
-       val testSingle = Single.error<List<Animal>>(Throwable())
+        Mockito.`when`(sPrefs.getStoredApiKey()).thenReturn(testKey)
+
+        val testSingle = Single.error<List<Animal>>(Throwable())
         val keySingle = Single.just(ApiKey("ok",testKey))
         Mockito.`when`(animalApiService.getAnimals(testKey)).thenReturn(testSingle)
         Mockito.`when`(animalApiService.getApiAKey()).thenReturn(keySingle)
-        listViewModel.everyTimeReferesh()
+        listViewModel.refresh()
 
         Assert.assertEquals(true,listViewModel.loadError.value)
         Assert.assertEquals(false,listViewModel.loading.value)
@@ -86,6 +95,7 @@ class ListViewModelTest {
 
     @Test
     fun getApiKeySuccess(){
+        Mockito.`when`(sPrefs.getStoredApiKey()).thenReturn(null)
         val keySingle = Single.just(ApiKey("ok",testKey))
 
         val  animal = Animal("cow",null,null,null,null,null,null)
@@ -94,7 +104,7 @@ class ListViewModelTest {
         val testSingle = Single.just(mockAnimalList)
         Mockito.`when`(animalApiService.getApiAKey()).thenReturn(keySingle)
         Mockito.`when`(animalApiService.getAnimals(testKey)).thenReturn(testSingle)
-        listViewModel.everyTimeReferesh()
+        listViewModel.refresh()
         Assert.assertEquals(1,listViewModel.animals.value?.size)
         Assert.assertEquals(false,listViewModel.loadError.value)
         Assert.assertEquals(false,listViewModel.loading.value)
@@ -102,9 +112,14 @@ class ListViewModelTest {
 
     @Test
     fun getApiKeyFailure(){
+        Mockito.`when`(sPrefs.getStoredApiKey()).thenReturn(null)
+
         val testSingle = Single.error<ApiKey>(Throwable())
+
+//        val keySingle = Single.just(ApiKey("ok",null))
+//        Mockito.`when`(animalApiService.getApiAKey()).thenReturn(keySingle)
         Mockito.`when`(animalApiService.getApiAKey()).thenReturn(testSingle)
-        listViewModel.everyTimeReferesh()
+        listViewModel.refresh()
         Assert.assertEquals(true,listViewModel.loadError.value)
         Assert.assertEquals(false,listViewModel.loading.value)
     }

@@ -9,11 +9,15 @@ import com.mukesh.assignment_android.mvvm.model.model_parse_data.Animal
 import com.mukesh.assignment_android.mvvm.model.api.AnimalApiService
 import com.mukesh.assignment_android.mvvm.model.model_parse_data.ApiKey
 import com.mukesh.assignment_android.di.ApplicationModule
+import com.mukesh.assignment_android.di.CONTEXT_APP
 import com.mukesh.assignment_android.di.DaggerViewModelServiceComponent
+import com.mukesh.assignment_android.di.TypeOfContext
+import com.mukesh.assignment_android.utils.SharedPreferenceHelper
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.observers.DisposableSingleObserver
 import io.reactivex.schedulers.Schedulers
+import org.json.JSONArray
 import javax.inject.Inject
 
 class ListViewModel(application: Application) : AndroidViewModel(application) {
@@ -28,9 +32,13 @@ class ListViewModel(application: Application) : AndroidViewModel(application) {
     val loading by lazy { MutableLiveData<Boolean>() }
 
     private val disposable = CompositeDisposable()
-    val gson = Gson()
+
     @Inject
     lateinit var animalApiService: AnimalApiService
+
+    @Inject
+    @field:TypeOfContext(CONTEXT_APP)
+    lateinit var pref: SharedPreferenceHelper
 
     private var iSInvalidKey = false
     private var injected: Boolean = false
@@ -43,7 +51,20 @@ class ListViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun everyTimeReferesh() {
+    fun refresh() {
+        Inject()
+        iSInvalidKey = false
+        val storeKey = pref.getStoredApiKey()
+        if (storeKey.isNullOrEmpty()) {
+            loading.value = true
+            getApiKey()
+        } else {
+            loading.value = true
+            getAnimals(storeKey)
+        }
+    }
+
+    fun hardRefresh() {
         Inject()
         loading.value = true
         getApiKey()
@@ -56,10 +77,13 @@ class ListViewModel(application: Application) : AndroidViewModel(application) {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(object : DisposableSingleObserver<ApiKey>() {
                     override fun onSuccess(apikey: ApiKey) {
+                       // Log.d("Response Key:",apikey.key)//bc6b18f57e7e0ca0d2a967532c27bb82d4a42f8c
+                        //Log.d("Response message:",apikey.message)
                         if (apikey.key.isNullOrEmpty()) {
                             loadError.value = true
                             loading.value = false
                         } else {
+                            pref.saveAPIKey(apikey.key)
                             getAnimals(apikey.key)
                         }
                     }
@@ -88,8 +112,8 @@ class ListViewModel(application: Application) : AndroidViewModel(application) {
                         override fun onSuccess(animalList: List<Animal>) {
 
                             // Converts List into a JSONArray string of Animal object
-                           /* val listAnimalType = object : TypeToken<List<Animal>>() {}.getType()
-                            val jsonElement: String =  gson.toJson(animalList, listAnimalType)
+                            /*val listAnimalType = object : TypeToken<List<Animal>>() {}.getType()
+                            val jsonElement: String =  Gson().toJson(animalList, listAnimalType)
                             val jsonArray =  JSONArray(jsonElement)
                             Log.d("RESPONSE: ",jsonArray.toString())*/
 

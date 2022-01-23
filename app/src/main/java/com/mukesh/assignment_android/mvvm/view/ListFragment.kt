@@ -63,7 +63,7 @@ class ListFragment : Fragment() {
         viewModel.animals.observe(this, animalListDataObserver)
         viewModel.loading.observe(this, loadingDataObserver)
         viewModel.loadError.observe(this, loadingErrorObserver)
-        viewModel.everyTimeReferesh()
+        viewModel.refresh()
 
         rv_animal_list.apply {
             layoutManager = GridLayoutManager(context, 2)
@@ -74,7 +74,7 @@ class ListFragment : Fragment() {
             rv_animal_list.visibility = View.GONE
             tv_list_error.visibility = View.GONE
             pb_loading_view.visibility = View.VISIBLE
-            viewModel.everyTimeReferesh()
+            viewModel.hardRefresh()
             sr_layout_swipe_animal.isRefreshing = false
         }
     }
