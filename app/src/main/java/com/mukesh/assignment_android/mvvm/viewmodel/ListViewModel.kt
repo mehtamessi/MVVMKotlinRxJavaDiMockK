@@ -3,6 +3,7 @@ package com.mukesh.assignment_android.mvvm.viewmodel
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
+import com.google.gson.Gson
 import com.mukesh.assignment_android.BuildConfig
 import com.mukesh.assignment_android.mvvm.model.model_parse_data.Animal
 import com.mukesh.assignment_android.mvvm.model.api.AnimalApiService
@@ -27,7 +28,7 @@ class ListViewModel(application: Application) : AndroidViewModel(application) {
     val loading by lazy { MutableLiveData<Boolean>() }
 
     private val disposable = CompositeDisposable()
-
+    val gson = Gson()
     @Inject
     lateinit var animalApiService: AnimalApiService
 
@@ -85,6 +86,13 @@ class ListViewModel(application: Application) : AndroidViewModel(application) {
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeWith(object : DisposableSingleObserver<List<Animal>>() {
                         override fun onSuccess(animalList: List<Animal>) {
+
+                            // Converts List into a JSONArray string of Animal object
+                           /* val listAnimalType = object : TypeToken<List<Animal>>() {}.getType()
+                            val jsonElement: String =  gson.toJson(animalList, listAnimalType)
+                            val jsonArray =  JSONArray(jsonElement)
+                            Log.d("RESPONSE: ",jsonArray.toString())*/
+
                                 animals.value = animalList
                                 loadError.value = false
                                 loading.value = false
